@@ -5,6 +5,14 @@ fn new_project(ctx: &CommandContext) {
     let name = ctx.positionals.first()
     	.map(String::as_str).unwrap_or("my-project");
 
+    if std::path::Path::new(name).exists() {
+        println!("> A directory with the name '{}' already exists.", name);
+        if !Confirm::new("> Overwrite?").ask() {
+            println!("! Aborted");
+            return;
+        }
+    }
+
     let preset = Choice::new("> Pick a preset", &["rust", "python", "web"])
         .ask();
 
@@ -34,14 +42,6 @@ fn new_project(ctx: &CommandContext) {
 }
 
 fn scaffold_web(name: &str) {
-	if std::path::Path::new(name).exists() {
-		println!("> A directory with the name '{}' already exists.", name);
-		if !Confirm::new("> Overwrite?").ask() {
-			println!("! Aborted");
-			return;
-		}
-	}
-
     std::fs::create_dir_all(name).unwrap();
     std::fs::write(format!("{}/index.html", name), format!(
 "<!DOCTYPE html>
@@ -89,13 +89,6 @@ body {
 }
 
 fn scaffold_py(name: &str, toml: bool) {
-        if std::path::Path::new(name).exists() {
-                println!("> A directory with the name '{}' already exists.", name);
-                if !Confirm::new("> Overwrite?").ask() {
-			println!("! Aborted");
-                        return;
-                }
-        }
 	std::fs::create_dir_all(name).unwrap();
 	std::fs::write(
 		format!("{}/main.py", name),
@@ -121,13 +114,6 @@ fn scaffold_py(name: &str, toml: bool) {
 }
 
 fn scaffold_rust(name: &str, bin: bool, lib: bool,) {
-    if std::path::Path::new(name).exists() {
-                println!("> A directory with the name '{}' already exists.", name);
-                if !Confirm::new("> Overwrite?").ask() {
-						println!("! Aborted");
-                        return;
-                }
-        }
     std::fs::create_dir_all(format!("{}/src", name)).unwrap();
 	if bin {
     	std::fs::write(format!("{}/src/main.rs", name), "fn main() {\n    println!(\"Hello, world!\");\n}\n").unwrap();
