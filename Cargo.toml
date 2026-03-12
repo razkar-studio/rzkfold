@@ -1,0 +1,7 @@
+[package]
+name = "rzkfold"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+vecli = "0.3"
