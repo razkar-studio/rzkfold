@@ -2,6 +2,12 @@
 name = "rzkfold"
 version = "0.1.0"
 edition = "2024"
+readme = "README.md"
+description = "Seamless scaffolding"
+repository = "https://github.com/razkar-studio/rzkfold"
+keywords = ["cli", "terminal", "scaffold", "app"]
+categories = ["command-line-interface"]
+license = "LICENSE.md"
 
 [dependencies]
 vecli = "0.3"
